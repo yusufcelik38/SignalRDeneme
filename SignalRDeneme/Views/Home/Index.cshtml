@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.signalR-2.4.0.min.js" type="text/javascript"></script>
+<script src="~/signalr/Hubs"></script>
+<input id="messageText" type="text" placeholder="Mesaj" />
+<input id="sendMessage" type="button" value="Gönder" />
+<ul id="messageList">
+
+</ul>
+
+<script type="text/javascript">
+    var person = prompt("Please enter your name", "Personal Info");
+
+
+    $('#sendMessage').click(function () {
+        var message = person + "->" + $('#messageText').val();
+        $.post('/Home/SendMessage', { 'message': message },
+            function (returnedData) {
+                //$('#messageList').a
+            });
+    });
+
+
+    var con = $.connection.faceHub;
+    con.client.hello = function (data) {
+        $('#messageList').append('<li>' + data + '</li>');
+
+    }
+
+    $.connection.hub.start();
+</script>
